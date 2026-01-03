@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica Vibe Coding - Antigravedad</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #1a1a1a; color: white; font-family: sans-serif; }
+        canvas { display: block; }
+        #info { position: absolute; top: 10px; left: 10px; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h1>Modo Antigravedad</h1>
+        <p>Generado mediante Vibe Coding (AI). Haz clic para interactuar.</p>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let atoms = [];
+
+        canvas.addEventListener('mousemove', function(e) {
+            for (let i = 0; i < 5; i++) {
+                atoms.push(new Atom(e.x, e.y));
+            }
+        });
+
+        class Atom {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 20 + 1;
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = Math.random() * 4 - 2;
+                this.color = 'hsl(' + Math.random() * 360 + ', 100%, 50%)';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.size -= 0.1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < atoms.length; i++) {
+                atoms[i].update();
+                atoms[i].draw();
+                // Gravedad simulada
+                atoms[i].speedY += 0.1; 
+                
+                if (atoms[i].size <= 0.3) {
+                    atoms.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
