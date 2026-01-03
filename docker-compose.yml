@@ -8,6 +8,10 @@ services:
     volumes:
       - ./html:/usr/share/nginx/html
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 128M
 
   database:
     image: mariadb:latest
