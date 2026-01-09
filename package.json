@@ -1,0 +1,8 @@
+{
+  "name": "practica-seguridad",
+  "version": "1.0.0",
+  "description": "Proyecto para testear Dependabot",
+  "dependencies": {
+    "lodash": "4.17.15"
+  }
+}
