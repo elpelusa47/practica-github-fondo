@@ -1,0 +1,14 @@
+# Ignorar archivos de sistema y temporales
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+
+# Ignorar Logs de Wazuh o del sistema (Application Security)
+*.log
+logs/
+
+# Ignorar entornos virtuales y secretos
+.env
+venv/
+.vscode/
