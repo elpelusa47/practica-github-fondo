@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Spark Simulator | Pomodoro</title>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .timer { font-size: 6rem; font-weight: bold; color: #238636; text-shadow: 0 0 20px rgba(35, 134, 54, 0.5); }
+        .controls { margin-top: 20px; }
+        button { background: #21262d; border: 1px solid #30363d; color: white; padding: 10px 20px; font-size: 1.2rem; cursor: pointer; border-radius: 6px; margin: 0 5px; transition: 0.2s; }
+        button:hover { background: #30363d; border-color: #8b949e; }
+        .status { margin-bottom: 20px; font-size: 1.5rem; color: #8b949e; text-transform: uppercase; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+    <div class="status" id="status">Enfoque</div>
+    <div class="timer" id="display">25:00</div>
+    <div class="controls">
+        <button onclick="startTimer()">▶ Iniciar</button>
+        <button onclick="pauseTimer()">⏸ Pausa</button>
+        <button onclick="resetTimer()">↺ Reset</button>
+    </div>
+
+    <script>
+        let timeLeft = 25 * 60;
+        let timerId = null;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('display').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (timerId) return;
+            document.getElementById('status').innerText = "Modo Productivo";
+            document.getElementById('display').style.color = "#238636"; // Green
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                if (timeLeft === 0) {
+                    clearInterval(timerId);
+                    timerId = null;
+                    document.getElementById('status').innerText = "¡Descanso!";
+                    document.getElementById('display').style.color = "#a371f7"; // Purple
+                    alert("¡Tiempo terminado! Tómate un descanso.");
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerId);
+            timerId = null;
+            document.getElementById('status').innerText = "Pausado";
+            document.getElementById('display').style.color = "#e3b341"; // Yellow
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeLeft = 25 * 60;
+            updateDisplay();
+            document.getElementById('status').innerText = "Listo";
+        }
+    </script>
+</body>
+</html>
